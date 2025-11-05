@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSAP - Morningstar Arsenal Pack</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --color-bg: #0a0a0f;
+            --color-primary: #ff003c;
+            --color-secondary: #007bff;
+            --color-text: #e0e0e0;
+            --color-text-muted: #8a8a9e;
+            --color-border: rgba(255, 255, 255, 0.1);
+            --font-primary: 'Orbitron', sans-serif;
+            --font-secondary: 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(255, 0, 60, 0.15), transparent 30%),
+                radial-gradient(circle at 85% 75%, rgba(0, 123, 255, 0.15), transparent 30%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-text {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+
+        .logo-text span {
+            color: var(--color-primary);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--color-text);
+            font-weight: 700;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-primary);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--color-primary);
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        main {
+            padding-top: 80px; /* Header height */
+        }
+
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        section:last-child {
+            border-bottom: none;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-primary);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(255, 0, 60, 0.3), 0 0 20px rgba(0, 123, 255, 0.3);
+        }
+
+        h1 { font-size: 3.5rem; color: var(--color-text); }
+        h2 { font-size: 2.5rem; color: var(--color-primary); }
+        h3 { font-size: 1.8rem; color: var(--color-secondary); }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--color-text-muted);
+            max-width: 70ch;
+        }
+
+        .hero {
+            text-align: center;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero .version {
+            font-size: 1rem;
+            color: var(--color-secondary);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h4 {
+            font-family: var(--font-primary);
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card ul {
+            list-style-position: inside;
+            padding-left: 0;
+        }
+
+        .card li {
+            color: var(--color-text-muted);
+            margin-bottom: 0.5rem;
+        }
+        
+        .wip {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--color-secondary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--color-text-muted);
+        }
+        
+        footer a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        /* Scrollspy active state */
+        .active {
+            color: var(--color-primary) !important;
+        }
+        .active::after {
+            width: 100% !important;
+        }
+
+        .page {
+            display: none; /* Hide all pages by default */
+        }
+        .page.active {
+            display: block; /* Show the active page */
+        }
+        .filter-buttons {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .filter-btn {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .weapon-card {
+            cursor: pointer;
+        }
+        .weapon-details {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #444;
+        }
+        
+        .contact-links {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+        
+        .contact-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--color-border);
+            color: var(--color-text);
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-icon:hover {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 0, 60, 0.3);
+        }
+        
+        .contact-icon.discord:hover {
+            background: #5865F2;
+            border-color: #5865F2;
+            box-shadow: 0 10px 20px rgba(88, 101, 242, 0.3);
+        }
+        
+        .contact-icon.youtube:hover {
+            background: #FF0000;
+            border-color: #FF0000;
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+        }
+        
+        .contact-icon.twitter:hover {
+            background: #000000;
+            border-color: #000000;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="https://cdn.discordapp.com/attachments/1120468456370868345/1435613299139149854/msd.png?ex=690c9a92&is=690b4912&hm=46f9d447f0d51fe0fc4b81499a44ac07dce3ce246260c7a7247993feb706d929&" alt="MSD Logo">
+            <div class="logo-text">MS<span>AP</span></div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#how-to-use" class="nav-link">Guide</a></li>
+                <li><a href="#weapons" class="nav-link">Weapons</a></li>
+                <li><a href="#vehicles" class="nav-link">Vehicles</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div id="about" class="page active">
+            <section id="features" class="container">
+                <h2>About The Addon</h2>
+                <p>MSD Addon is a comprehensive military-themed addon for Minecraft Bedrock Edition. It introduces a vast array of realistic content, including advanced weapon mechanics, a diverse lineup of land and air vehicles, custom armor, and a sophisticated gameplay system. The goal is to provide an immersive, tactical experience with high-quality models, sounds, and detailed mechanics.</p>
+                <h3>Key Features:</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Advanced Gun Mechanics</h3>
+                        <p>Experience realistic gun mechanics, including ADS, recoil, multiple fire modes, and a wide range of attachments.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Custom Vehicles</h3>
+                        <p>Drive a variety of custom vehicles, from light utility trucks to main battle tanks and attack helicopters.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Leveling System</h3>
+                        <p>A complete leveling system to rank up and unlock new gear through gameplay.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Custom UI</h3>
+                        <p>Modern and clean UI for a better user experience and seamless interaction with addon features.</p>
+                    </div>
+                </div>
+                
+                <h3 style="text-align: center; margin-top: 3rem;">Watch Our Trailer</h3>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/ClvWTHiVSCs" title="MSAP Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </section>
+        </div>
+
+        <div id="how-to-use" class="page">
+            <section class="container">
+                <h2>Guide</h2>
+                
+                <h3>Basic Weapon Controls</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>Aiming Down Sights (ADS)</h4>
+                        <p><strong>How:</strong> Sneak/Crouch while holding a weapon</p>
+                        <p><strong>Effect:</strong> Activates aiming mode for increased accuracy</p>
+                        <p><strong>Notes:</strong> Most weapons have iron sights or optics for precision shooting</p>
+                    </div>
+                    <div class="card">
+                        <h4>Firing</h4>
+                        <p><strong>How:</strong> Use/Interact button while holding a weapon</p>
+                        <p><strong>Effect:</strong> Fires the weapon according to its fire mode</p>
+                        <p><strong>Notes:</strong> Mind your ammo count and fire rate</p>
+                    </div>
+                    <div class="card">
+                        <h4>Reloading</h4>
+                        <p><strong>How:</strong> Automatic when magazine is empty</p>
+                        <p><strong>Effect:</strong> Replenishes magazine from reserve ammo</p>
+                        <p><strong>Notes:</strong> Reload times vary by weapon class (see weapon stats)</p>
+                    </div>
+                    <div class="card">
+                        <h4>Fire Modes</h4>
+                        <p><strong>Semi-Auto:</strong> One shot per trigger pull (DMRs, pistols)</p>
+                        <p><strong>Full-Auto:</strong> Continuous fire while holding trigger (ARs, LMGs)</p>
+                        <p><strong>Burst:</strong> Fixed bursts per trigger pull (some assault rifles)</p>
+                    </div>
+                </div>
+
+                <h3>Weapon Attachments & Optics</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>Optic Sights</h4>
+                        <p><strong>Available:</strong> Red Dot, Holographic, 2x, 4x, 6x, 8x scopes</p>
+                        <p><strong>Usage:</strong> Equipped variants have built-in optics</p>
+                        <p><strong>Effect:</strong> Improved target acquisition at various ranges</p>
+                    </div>
+                    <div class="card">
+                        <h4>Foregrips</h4>
+                        <p><strong>Available:</strong> Vertical grips on compatible weapons</p>
+                        <p><strong>Effect:</strong> Reduced recoil and improved accuracy</p>
+                        <p><strong>Note:</strong> Indicated by "_grip" in weapon class name</p>
+                    </div>
+                    <div class="card">
+                        <h4>Suppressors</h4>
+                        <p><strong>Available:</strong> On designated stealth variants</p>
+                        <p><strong>Effect:</strong> Reduced firing sound</p>
+                        <p><strong>Examples:</strong> AS VAL (integrated)</p>
+                    </div>
+                    <div class="card">
+                        <h4>Extended Magazines</h4>
+                        <p><strong>Available:</strong> Drum mags for LMGs and some ARs</p>
+                        <p><strong>Effect:</strong> Increased ammunition capacity</p>
+                        <p><strong>Examples:</strong> RPK drum (75 rds), PKM belt (200 rds)</p>
+                    </div>
+                </div>
+
+                <h3>Weapon Categories Explained</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>Assault Rifles</h4>
+                        <p>General-purpose rifles with balanced stats</p>
+                        <ul>
+                            <li>Rate of Fire: 600-900 RPM</li>
+                            <li>Effective Range: Medium</li>
+                            <li>Best For: Versatile combat situations</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Battle Rifles</h4>
+                        <p>High-damage rifles firing full-power cartridges</p>
+                        <ul>
+                            <li>Rate of Fire: 400-600 RPM</li>
+                            <li>Effective Range: Medium-Long</li>
+                            <li>Best For: Power and penetration</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Carbines</h4>
+                        <p>Compact rifles for close-quarters combat</p>
+                        <ul>
+                            <li>Rate of Fire: 600-750 RPM</li>
+                            <li>Effective Range: Short-Medium</li>
+                            <li>Best For: Mobility and maneuverability</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>DMRs (Designated Marksman Rifles)</h4>
+                        <p>Semi-automatic precision rifles</p>
+                        <ul>
+                            <li>Rate of Fire: 250-300 RPM</li>
+                            <li>Effective Range: Long</li>
+                            <li>Best For: Accurate mid-range fire</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Sniper Rifles</h4>
+                        <p>Bolt-action rifles for extreme range</p>
+                        <ul>
+                            <li>Rate of Fire: 40-60 RPM</li>
+                            <li>Effective Range: Very Long</li>
+                            <li>Best For: Long-range elimination</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>LMGs (Light Machine Guns)</h4>
+                        <p>High-capacity suppressive fire weapons</p>
+                        <ul>
+                            <li>Rate of Fire: 600-800 RPM</li>
+                            <li>Magazine: 75-200 rounds</li>
+                            <li>Best For: Sustained fire support</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>SMGs (Submachine Guns)</h4>
+                        <p>Compact automatic weapons</p>
+                        <ul>
+                            <li>Rate of Fire: 700-900 RPM</li>
+                            <li>Effective Range: Short</li>
+                            <li>Best For: Close combat and mobility</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Shotguns</h4>
+                        <p>Close-range powerhouses</p>
+                        <ul>
+                            <li>Rate of Fire: 57-300 RPM</li>
+                            <li>Effective Range: Very Short</li>
+                            <li>Best For: Devastating close combat</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Heavy Weapons & Equipment</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Mortar</h3>
+                        <p><strong>Usage:</strong> A portable, indirect-fire weapon for high-angle attacks.</p>
+                        <p><strong>1. Deploy:</strong> Place the mortar item on the ground.</p>
+                        <p><strong>2. Aim:</strong> Interact with the mortar. Use your view to aim; the shell's trajectory is fixed, so range is determined by your distance to the target.</p>
+                        <p><strong>3. Fire:</strong> Use the fire button to launch a shell.</p>
+                    </div>
+                    <div class="card">
+                        <h3>M777 Howitzer</h3>
+                        <p><strong>Usage:</strong> A powerful, long-range artillery piece for devastating bombardments.</p>
+                        <p><strong>1. Deploy:</strong> Place the M777 item on the ground.</p>
+                        <p><strong>2. Operate:</strong> Interact with the howitzer to open its control UI.</p>
+                        <p><strong>3. Aim:</strong> Use the sliders in the UI to precisely adjust the Yaw (horizontal) and Elevation (vertical) angles. The UI will show the estimated range in blocks.</p>
+                        <p><strong>4. Fire:</strong> Press the fire button in the UI to shoot.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Gortensiya (Combat Drone)</h3>
+                        <p><strong>Deploy:</strong> Place the Gortensiya drone item from your inventory. It will hover in place.</p>
+                        <p><strong>Load Ammunition:</strong> The drone can be equipped with various munitions:</p>
+                        <ul>
+                            <li><strong>RPG Rockets:</strong> Anti-vehicle/structure rockets</li>
+                            <li><strong>RGD-5 Grenades:</strong> Anti-personnel explosives</li>
+                            <li><strong>Mortar Shells:</strong> High-angle bombardment rounds</li>
+                        </ul>
+                        <p><strong>Control:</strong> Interact with a Computer item while the drone is deployed to take control. Your view will switch to the drone's camera.</p>
+                        <p><strong>Movement:</strong> Use standard movement controls to fly the drone. Use jump/sneak for altitude control.</p>
+                        <p><strong>Fire:</strong> Use the fire button to launch loaded munitions at targets.</p>
+                        <p><strong>Exit:</strong> Drop or switch from the Computer item to exit drone view.</p>
+                        <p><strong>Note:</strong> The drone has limited ammunition capacity - reload by interacting with it while holding ammo items.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="weapons" class="page">
+            <section class="container">
+                <h2>Weapons</h2>
+                <p>A comprehensive arsenal of 81 unique weapons (388 total variants) across 18 distinct classes. Each weapon features realistic stats extracted from the addon's source code. Click on a weapon to see its detailed statistics.</p>
+                <div class="filter-buttons" id="weapon-filters">
+                    <!-- Filter buttons will be dynamically inserted here -->
+                </div>
+                <div class="grid" id="weapons-grid">
+                    <!-- Weapon cards will be dynamically inserted here -->
+                </div>
+            </section>
+        </div>
+
+        <div id="vehicles" class="page">
+            <section class="container">
+                <h2>Vehicles</h2>
+                <p>Command a range of land and air vehicles, each with unique capabilities.</p>
+                <div class="grid" id="vehicles-grid">
+                    <div class="card">
+                        <h3>T-90</h3>
+                        <p>Main Battle Tank</p>
+                        <ul><li>Top Speed: 50 km/h</li><li>Usage: Driver controls movement. Gunner controls main cannon and coaxial MG. Commander controls roof-mounted HMG.</li></ul>
+                    </div>
+                    <div class="card">
+                        <h3>M1A2 Abrams</h3>
+                        <p>Main Battle Tank</p>
+                        <ul><li>Top Speed: 67 km/h</li><li>Usage: Driver controls movement. Gunner controls main cannon and coaxial MG. Commander controls roof-mounted HMG.</li></ul>
+                    </div>
+                    <div class="card">
+                        <h3>BMP-3</h3>
+                        <p>Infantry Fighting Vehicle</p>
+                        <ul><li>Top Speed: 72 km/h</li><li>Usage: Driver controls movement. Gunner controls 100mm cannon, 30mm autocannon, and coaxial MG. Can carry infantry.</li></ul>
+                    </div>
+                    <div class="card">
+                        <h3>M2A3 Bradley</h3>
+                        <p>Infantry Fighting Vehicle</p>
+                        <ul><li>Top Speed: 61 km/h</li><li>Usage: Driver controls movement. Gunner controls 25mm autocannon and coaxial MG. Can carry infantry.</li></ul>
+                    </div>
+                    <div class="card">
+                        <h3>Mi-24</h3>
+                        <p>Attack Helicopter</p>
+                        <ul><li>Top Speed: 335 km/h</li><li>Usage: Pilot controls flight. Gunner controls nose-mounted cannon and rocket pods.</li></ul>
+                    </div>
+                    <div class="card">
+                        <h3>UH-60</h3>
+                        <p>Utility Helicopter</p>
+                        <ul><li>Top Speed: 280 km/h</li><li>Usage: Pilot controls flight. Can transport troops. Features two side-mounted miniguns for door gunners.</li></ul>
+                    </div>
+                    <div class="card">
+                        <h3>Humvee</h3>
+                        <p>Light Utility Vehicle</p>
+                        <ul><li>Top Speed: 113 km/h</li><li>Usage: Driver controls movement. Can transport troops. Some variants have a roof-mounted machine gun.</li></ul>
+                    </div>
+                    <div class="card">
+                        <h3>Gaz-Tigr</h3>
+                        <p>Infantry Mobility Vehicle</p>
+                        <ul><li>Top Speed: 160 km/h</li><li>Usage: Driver controls movement. Can transport troops. Some variants have a roof-mounted machine gun.</li></ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="contact" class="page">
+            <section class="container">
+                <h2>Get In Touch</h2>
+                <p>For inquiries, bug reports, or suggestions, please contact the development team.</p>
+                <p><strong>Managed by:</strong> Morningstar Addons MCBE</p>
+                <div class="contact-links">
+                    <a href="https://discord.gg/nqTgqRyDVG" target="_blank" class="contact-icon discord" title="Join our Discord">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.youtube.com/@MorningstarDefenceMCBE" target="_blank" class="contact-icon youtube" title="Subscribe on YouTube">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                    <a href="https://x.com/McbeMorningstar" target="_blank" class="contact-icon twitter" title="Follow us on X/Twitter">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:morningstaraddonsmcbe@gmail.com" class="contact-icon email" title="Send us an email">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Morningstar MilSim Community. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Weapon data embedded inline -->
+    <script>
+const weaponData = {
+  "gl": [
+    {
+      "id": "msd:chinalake",
+      "name": "China Lake",
+      "rpm": 120,
+      "damage": 4.46,
+      "magazine": "grenade40mmhe",
+      "capacity": 4,
+      "ammo": "ks23",
+      "class": "gl"
+    }
+  ],
+  "shotgun": [
+    {
+      "id": "msd:ks231",
+      "name": "KS-23",
+      "rpm": 57,
+      "damage": 4.46,
+      "magazine": "ammo_8gauge",
+      "capacity": 4,
+      "ammo": "ks23",
+      "class": "shotgun"
+    },
+    {
+      "id": "msd:fnf51",
+      "name": "Fn A.B",
+      "rpm": 86,
+      "damage": 5.0,
+      "magazine": "ammo_8gauge",
+      "capacity": 5,
+      "ammo": "fnf51",
+      "class": "shotgun"
+    }
+  ],
+  "sniper_rifle": [
+    {
+      "id": "msd:ax50",
+      "name": "AX 50",
+      "rpm": 57,
+      "damage": 20.0,
+      "magazine": "ax50mag",
+      "capacity": 5,
+      "ammo": "frf2",
+      "class": "sniper_rifle"
+    },
+    {
+      "id": "msd:frf2",
+      "name": "FR F2",
+      "rpm": 57,
+      "damage": 20.0,
+      "magazine": "frf2mag",
+      "capacity": 10,
+      "ammo": "frf2",
+      "class": "sniper_rifle"
+    }
+  ],
+  "battlerifle_sbr": [
+    {
+      "id": "msd:bfr",
+      "name": "BFR",
+      "rpm": 100,
+      "damage": 13.0,
+      "magazine": "ammo_45-70mm",
+      "capacity": 6,
+      "ammo": "bfr",
+      "class": "battlerifle_sbr"
+    },
+    {
+      "id": "msd:shak121",
+      "name": "ShAK-12",
+      "rpm": 400,
+      "damage": 14.0,
+      "magazine": "shak12mag",
+      "capacity": 30,
+      "ammo": "shak121",
+      "class": "battlerifle_sbr"
+    },
+    {
+      "id": "msd:fnfal1",
+      "name": "FN-FAL",
+      "rpm": 400,
+      "damage": 10.0,
+      "magazine": "fnfalmag",
+      "capacity": 20,
+      "ammo": "fnfal1",
+      "class": "battlerifle_sbr"
+    },
+    {
+      "id": "msd:hk4171",
+      "name": "HK417",
+      "rpm": 400,
+      "damage": 10.0,
+      "magazine": "hk417mag",
+      "capacity": 20,
+      "ammo": "hk4171",
+      "class": "battlerifle_sbr"
+    },
+    {
+      "id": "msd:aks74u",
+      "name": "AKS-74U",
+      "rpm": 600,
+      "damage": 5.3,
+      "magazine": "ak545mag",
+      "capacity": 30,
+      "ammo": "aks74u",
+      "class": "battlerifle_sbr"
+    }
+  ],
+  "assaultrifle_grip": [
+    {
+      "id": "msd:scarhpr1",
+      "name": "SCAR-HPR",
+      "rpm": 150,
+      "damage": 10.0,
+      "magazine": "scarmag",
+      "capacity": 20,
+      "ammo": "m110",
+      "class": "assaultrifle_grip"
+    },
+    {
+      "id": "msd:sks",
+      "name": "SKS",
+      "rpm": 150,
+      "damage": 6.7,
+      "magazine": "sksammo",
+      "capacity": 10,
+      "ammo": "sks",
+      "class": "assaultrifle_grip"
+    },
+    {
+      "id": "msd:cz762bren13",
+      "name": "CZ BREN 2 (5.56)",
+      "rpm": 400,
+      "damage": 6.7,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "cz762bren",
+      "class": "assaultrifle_grip"
+    },
+    {
+      "id": "msd:ak749",
+      "name": "AK74M",
+      "rpm": 600,
+      "damage": 5.3,
+      "magazine": "ak545mag",
+      "capacity": 30,
+      "ammo": "ak74",
+      "class": "assaultrifle_grip"
+    },
+    {
+      "id": "msd:qbu191",
+      "name": "QBU-191",
+      "rpm": 150,
+      "damage": 6.3,
+      "magazine": "qbz95mag",
+      "capacity": 30,
+      "ammo": "qbu191",
+      "class": "assaultrifle_grip"
+    },
+    {
+      "id": "msd:qjb95",
+      "name": "QJB-95",
+      "rpm": 600,
+      "damage": 6.3,
+      "magazine": "qjb95mag",
+      "capacity": 75,
+      "ammo": "qjb95",
+      "class": "assaultrifle_grip"
+    },
+    {
+      "id": "msd:hk41619",
+      "name": "HK416",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "hk416",
+      "class": "assaultrifle_grip"
+    },
+    {
+      "id": "msd:ak1039",
+      "name": "AK103",
+      "rpm": 400,
+      "damage": 6.7,
+      "magazine": "ak762mag",
+      "capacity": 30,
+      "ammo": "ak103",
+      "class": "assaultrifle_grip"
+    }
+  ],
+  "assaultrifle": [
+    {
+      "id": "msd:m1101",
+      "name": "M110",
+      "rpm": 150,
+      "damage": 10.0,
+      "magazine": "m110mag",
+      "capacity": 20,
+      "ammo": "m110",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:scarl",
+      "name": "SCAR-L",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "scarl",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:cz762bren1",
+      "name": "CZ BREN 2 (5.56)",
+      "rpm": 400,
+      "damage": 6.7,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "cz762bren",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:rpk161",
+      "name": "RPK16",
+      "rpm": 600,
+      "damage": 5.3,
+      "magazine": "ak545drummag",
+      "capacity": 95,
+      "ammo": "rpk16",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:type98",
+      "name": "Type-98",
+      "rpm": 600,
+      "damage": 5.3,
+      "magazine": "type98mag",
+      "capacity": 120,
+      "ammo": "type98",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:ak741",
+      "name": "AK74M",
+      "rpm": 600,
+      "damage": 5.3,
+      "magazine": "ak545mag",
+      "capacity": 30,
+      "ammo": "ak74",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:galil556",
+      "name": "Galil 5.56x45",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "galil556mag",
+      "capacity": 35,
+      "ammo": "galil",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:galil7621",
+      "name": "Galil 7.62x51",
+      "rpm": 400,
+      "damage": 5.2,
+      "magazine": "galil762mag",
+      "capacity": 25,
+      "ammo": "galil",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:tavor1",
+      "name": "IWI Tavor",
+      "rpm": 600,
+      "damage": 6.3,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "qbz95",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:mcxlvaw1",
+      "name": "MCX LVAW",
+      "rpm": 600,
+      "damage": 6.7,
+      "magazine": "mcxlvawmag",
+      "capacity": 30,
+      "ammo": "mcxlvaw",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:qbz191",
+      "name": "QBZ-191",
+      "rpm": 600,
+      "damage": 6.3,
+      "magazine": "qbz95mag",
+      "capacity": 30,
+      "ammo": "qbz191",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:qbz95",
+      "name": "QBZ-95",
+      "rpm": 600,
+      "damage": 6.3,
+      "magazine": "qbz95mag",
+      "capacity": 30,
+      "ammo": "qbz95",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:m161",
+      "name": "M16",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "m16mag",
+      "capacity": 20,
+      "ammo": "m16",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:m4a1",
+      "name": "M4A1",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "m16",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:hk41613",
+      "name": "HK416",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "hk416",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:m723",
+      "name": "M723",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "m723",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:type561",
+      "name": "Type56",
+      "rpm": 400,
+      "damage": 6.7,
+      "magazine": "ak762mag",
+      "capacity": 30,
+      "ammo": "type56",
+      "class": "assaultrifle"
+    },
+    {
+      "id": "msd:ak1031",
+      "name": "AK103",
+      "rpm": 400,
+      "damage": 6.7,
+      "magazine": "ak762mag",
+      "capacity": 30,
+      "ammo": "ak103",
+      "class": "assaultrifle"
+    }
+  ],
+  "battlerifle": [
+    {
+      "id": "msd:hcartan1",
+      "name": "HCAR",
+      "rpm": 400,
+      "damage": 13.0,
+      "magazine": "hcarmag",
+      "capacity": 30,
+      "ammo": "hcar",
+      "class": "battlerifle"
+    },
+    {
+      "id": "msd:shak1213",
+      "name": "ShAK-12",
+      "rpm": 400,
+      "damage": 14.0,
+      "magazine": "shak12mag",
+      "capacity": 30,
+      "ammo": "shak121",
+      "class": "battlerifle"
+    },
+    {
+      "id": "msd:mk14",
+      "name": "Mk 14",
+      "rpm": 400,
+      "damage": 10.0,
+      "magazine": "mk14mag",
+      "capacity": 20,
+      "ammo": "mk14",
+      "class": "battlerifle"
+    },
+    {
+      "id": "msd:fnfal5",
+      "name": "FN-FAL",
+      "rpm": 400,
+      "damage": 10.0,
+      "magazine": "fnfalmag",
+      "capacity": 20,
+      "ammo": "fnfal",
+      "class": "battlerifle"
+    },
+    {
+      "id": "msd:scarh1",
+      "name": "SCAR-H",
+      "rpm": 400,
+      "damage": 10.0,
+      "magazine": "scarmag",
+      "capacity": 20,
+      "ammo": "fnfal",
+      "class": "battlerifle"
+    },
+    {
+      "id": "msd:hk41713",
+      "name": "HK417",
+      "rpm": 400,
+      "damage": 10.0,
+      "magazine": "hk417mag",
+      "capacity": 20,
+      "ammo": "hk417",
+      "class": "battlerifle"
+    },
+    {
+      "id": "msd:aks74u_zenitco_grip_eotech",
+      "name": "AKS-74U",
+      "rpm": 600,
+      "damage": 5.3,
+      "magazine": "ak545mag",
+      "capacity": 30,
+      "ammo": "aks74u",
+      "class": "battlerifle"
+    },
+    {
+      "id": "msd:type93",
+      "name": "Type93",
+      "rpm": 400,
+      "damage": 5.3,
+      "magazine": "ak762mag",
+      "capacity": 30,
+      "ammo": "type93",
+      "class": "battlerifle"
+    }
+  ],
+  "battlerifle_sbr_grip": [
+    {
+      "id": "msd:shak127",
+      "name": "ShAK-12",
+      "rpm": 400,
+      "damage": 14.0,
+      "magazine": "shak12mag",
+      "capacity": 30,
+      "ammo": "shak121",
+      "class": "battlerifle_sbr_grip"
+    },
+    {
+      "id": "msd:hk4177",
+      "name": "HK417",
+      "rpm": 400,
+      "damage": 10.0,
+      "magazine": "hk417mag",
+      "capacity": 20,
+      "ammo": "hk4171",
+      "class": "battlerifle_sbr_grip"
+    },
+    {
+      "id": "msd:aks74u_zenitco_grip",
+      "name": "AKS-74U",
+      "rpm": 600,
+      "damage": 5.3,
+      "magazine": "ak545mag",
+      "capacity": 30,
+      "ammo": "aks74u",
+      "class": "battlerifle_sbr_grip"
+    }
+  ],
+  "battlerifle_grip": [
+    {
+      "id": "msd:shak1219",
+      "name": "ShAK-12",
+      "rpm": 400,
+      "damage": 14.0,
+      "magazine": "shak12mag",
+      "capacity": 30,
+      "ammo": "shak121",
+      "class": "battlerifle_grip"
+    },
+    {
+      "id": "msd:hk41719",
+      "name": "HK417",
+      "rpm": 400,
+      "damage": 10.0,
+      "magazine": "hk417mag",
+      "capacity": 20,
+      "ammo": "hk417",
+      "class": "battlerifle_grip"
+    },
+    {
+      "id": "msd:famas1",
+      "name": "FAMAS",
+      "rpm": 1200,
+      "damage": 6.3,
+      "magazine": "famasmag",
+      "capacity": 25,
+      "ammo": "qbz95",
+      "class": "battlerifle_grip"
+    }
+  ],
+  "smg": [
+    {
+      "id": "msd:mp51",
+      "name": "MP5",
+      "rpm": 600,
+      "damage": 4.0,
+      "magazine": "mp5mag",
+      "capacity": 30,
+      "ammo": "mp5",
+      "class": "smg"
+    },
+    {
+      "id": "msd:m635_wire",
+      "name": "M635",
+      "rpm": 600,
+      "damage": 4.0,
+      "magazine": "m635mag",
+      "capacity": 30,
+      "ammo": "mp5",
+      "class": "smg"
+    },
+    {
+      "id": "msd:vzskorpion",
+      "name": "Vz. Skorpion",
+      "rpm": 600,
+      "damage": 3.0,
+      "magazine": "vzskorpionmag",
+      "capacity": 20,
+      "ammo": "vzskorpion",
+      "class": "smg"
+    },
+    {
+      "id": "msd:pm63rak",
+      "name": "PM-63 RAK",
+      "rpm": 600,
+      "damage": 3.5,
+      "magazine": "pm63rakmag",
+      "capacity": 25,
+      "ammo": "pm63rak",
+      "class": "smg"
+    }
+  ],
+  "carbine": [
+    {
+      "id": "msd:m733",
+      "name": "M733",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "m733",
+      "class": "carbine"
+    },
+    {
+      "id": "msd:cz556brensb1",
+      "name": "CZ BREN 2 (5.56)",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "cz556bren",
+      "class": "carbine"
+    },
+    {
+      "id": "msd:cz762brensb1",
+      "name": "CZ BREN 2 (7.62)",
+      "rpm": 400,
+      "damage": 6.7,
+      "magazine": "ak762mag",
+      "capacity": 30,
+      "ammo": "cz762bren",
+      "class": "carbine"
+    },
+    {
+      "id": "msd:scarsc",
+      "name": "SCAR-SC",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "scarsc",
+      "class": "carbine"
+    },
+    {
+      "id": "msd:hk4161",
+      "name": "HK416",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "hk4161",
+      "class": "carbine"
+    },
+    {
+      "id": "msd:asval1",
+      "name": "AS Val",
+      "rpm": 600,
+      "damage": 6.8,
+      "magazine": "asvalmag",
+      "capacity": 30,
+      "ammo": "asval",
+      "class": "carbine"
+    },
+    {
+      "id": "msd:qbz192",
+      "name": "QBZ-192",
+      "rpm": 600,
+      "damage": 6.3,
+      "magazine": "qbz95mag",
+      "capacity": 30,
+      "ammo": "qbz192",
+      "class": "carbine"
+    },
+    {
+      "id": "msd:ak1051",
+      "name": "AK105",
+      "rpm": 600,
+      "damage": 5.3,
+      "magazine": "ak545mag",
+      "capacity": 30,
+      "ammo": "ak105",
+      "class": "carbine"
+    },
+    {
+      "id": "msd:ak1041",
+      "name": "AK104",
+      "rpm": 400,
+      "damage": 6.7,
+      "magazine": "ak762mag",
+      "capacity": 30,
+      "ammo": "ak104",
+      "class": "carbine"
+    }
+  ],
+  "carbine_grip": [
+    {
+      "id": "msd:cz556brensb13",
+      "name": "CZ BREN 2 (5.56)",
+      "rpm": 600,
+      "damage": 5.2,
+      "magazine": "stanagmag",
+      "capacity": 30,
+      "ammo": "cz556bren",
+      "class": "carbine_grip"
+    },
+    {
+      "id": "msd:cz762brensb13",
+      "name": "CZ BREN 2 (7.62)",
+      "rpm": 400,
+      "damage": 6.7,
+      "magazine": "ak762mag",
+      "capacity": 30,
+      "ammo": "cz762bren",
+      "class": "carbine_grip"
+    },
+    {
+      "id": "msd:ak1059",
+      "name": "AK105",
+      "rpm": 600,
+      "damage": 5.3,
+      "magazine": "ak545mag",
+      "capacity": 30,
+      "ammo": "ak105",
+      "class": "carbine_grip"
+    },
+    {
+      "id": "msd:ak1048",
+      "name": "AK104",
+      "rpm": 400,
+      "damage": 6.7,
+      "magazine": "ak762mag",
+      "capacity": 30,
+      "ammo": "ak104",
+      "class": "carbine_grip"
+    }
+  ],
+  "none": [
+    {
+      "id": "msd:kord1",
+      "name": "Kord 6P68",
+      "rpm": 600,
+      "damage": 6.7,
+      "magazine": "ak762mag",
+      "capacity": 30,
+      "ammo": "kord",
+      "class": "none"
+    },
+    {
+      "id": "msd:smaw1",
+      "name": "SMAW",
+      "rpm": 400,
+      "damage": 600.0,
+      "magazine": "smawrocket",
+      "capacity": 1,
+      "ammo": "smaw",
+      "class": "none"
+    },
+    {
+      "id": "msd:rpg71",
+      "name": "RPG7",
+      "rpm": 400,
+      "damage": 500.0,
+      "magazine": "rpg7rocket",
+      "capacity": 1,
+      "ammo": "rpg7",
+      "class": "none"
+    }
+  ],
+  "gpmg": [
+    {
+      "id": "msd:pkp1",
+      "name": "PKP",
+      "rpm": 600,
+      "damage": 12.0,
+      "magazine": "pkmmag",
+      "capacity": 200,
+      "ammo": "pkm",
+      "class": "gpmg"
+    },
+    {
+      "id": "msd:pkm1",
+      "name": "PKM",
+      "rpm": 600,
+      "damage": 12.0,
+      "magazine": "pkmmag",
+      "capacity": 200,
+      "ammo": "pkm",
+      "class": "gpmg"
+    },
+    {
+      "id": "msd:m6014",
+      "name": "M60",
+      "rpm": 400,
+      "damage": 10.0,
+      "magazine": "m60mag",
+      "capacity": 100,
+      "ammo": "m60",
+      "class": "gpmg"
+    },
+    {
+      "id": "msd:m6015",
+      "name": "Mk43",
+      "rpm": 400,
+      "damage": 12.0,
+      "magazine": "m60mag",
+      "capacity": 100,
+      "ammo": "mk43",
+      "class": "gpmg"
+    },
+    {
+      "id": "msd:m240l",
+      "name": "M240-L",
+      "rpm": 600,
+      "damage": 12.0,
+      "magazine": "belt_762x51_200",
+      "capacity": 200,
+      "ammo": "m240",
+      "class": "gpmg"
+    },
+    {
+      "id": "msd:hk1211",
+      "name": "HK121",
+      "rpm": 600,
+      "damage": 10.0,
+      "magazine": "hk121mag",
+      "capacity": 120,
+      "ammo": "m60",
+      "class": "gpmg"
+    }
+  ],
+  "gpmg_sbr": [
+    {
+      "id": "msd:m601",
+      "name": "M60",
+      "rpm": 400,
+      "damage": 10.0,
+      "magazine": "m60mag",
+      "capacity": 100,
+      "ammo": "m601",
+      "class": "gpmg_sbr"
+    },
+    {
+      "id": "msd:m602",
+      "name": "Mk43",
+      "rpm": 400,
+      "damage": 12.0,
+      "magazine": "m60mag",
+      "capacity": 100,
+      "ammo": "mk431",
+      "class": "gpmg_sbr"
+    }
+  ],
+  "gpmg_sbr_grip": [
+    {
+      "id": "msd:m608",
+      "name": "Mk43",
+      "rpm": 400,
+      "damage": 12.0,
+      "magazine": "m60mag",
+      "capacity": 100,
+      "ammo": "mk431",
+      "class": "gpmg_sbr_grip"
+    }
+  ],
+  "pistol": [
+    {
+      "id": "msd:p8",
+      "name": "P8",
+      "rpm": 300,
+      "damage": 4.0,
+      "magazine": "p8mag",
+      "capacity": 15,
+      "ammo": "p8",
+      "class": "pistol"
+    }
+  ],
+  "pistol_auto": [
+    {
+      "id": "msd:glock181",
+      "name": "Glock-18",
+      "rpm": 1200,
+      "damage": 4.0,
+      "magazine": "glock18mag",
+      "capacity": 19,
+      "ammo": "glock18",
+      "class": "pistol_auto"
+    }
+  ]
+};
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+
+            function showPage(pageId) {
+                pages.forEach(page => {
+                    if (page.id === pageId) {
+                        page.classList.add('active');
+                    } else {
+                        page.classList.remove('active');
+                    }
+                });
+                 // Update active nav link
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href').substring(1) === pageId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const pageId = this.getAttribute('href').substring(1);
+                    window.location.hash = pageId;
+                });
+            });
+
+            // Handle hash change
+            window.addEventListener('hashchange', function() {
+                const pageId = window.location.hash.substring(1) || 'about';
+                showPage(pageId);
+            });
+
+            // Handle initial page load
+            const initialPageId = window.location.hash.substring(1) || 'about';
+            showPage(initialPageId);
+
+            // --- WEAPON DATA AND LOGIC ---
+            // Weapon data is embedded inline above
+            initializeWeapons();
+            
+            function initializeWeapons() {
+                if (!weaponData) return;
+
+                const weaponsGrid = document.getElementById('weapons-grid');
+                const filtersContainer = document.getElementById('weapon-filters');
+                
+                // Check if elements exist (user might not be on weapons page)
+                if (!weaponsGrid || !filtersContainer) return;
+                
+                const allWeapons = Object.values(weaponData).flat();
+                const weaponClasses = [...new Set(allWeapons.map(w => {
+                    const key = Object.keys(weaponData).find(k => weaponData[k].includes(w));
+                    return key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                }))];
+
+
+                function renderWeapons(filter = '*') {
+                    weaponsGrid.innerHTML = '';
+                    let filteredWeapons = allWeapons;
+
+                    if (filter !== '*') {
+                        const filterKey = filter.replace(/ /g, '_').toLowerCase();
+                        filteredWeapons = weaponData[filterKey] || [];
+                    }
+
+                    filteredWeapons.forEach(weapon => {
+                        const weaponClassKey = Object.keys(weaponData).find(k => weaponData[k].includes(weapon));
+                        const weaponClassName = weaponClassKey.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+                        const card = document.createElement('div');
+                        card.classList.add('card', 'weapon-card');
+                        card.dataset.class = weaponClassName;
+                        card.innerHTML = `
+                            <h3>${weapon.name}</h3>
+                            <div class="weapon-details">
+                                <p>Class: ${weaponClassName}</p>
+                                <ul>
+                                    <li>Damage: ${weapon.damage}</li>
+                                    <li>Fire Rate: ${weapon.rpm} RPM</li>
+                                    <li>Magazine: ${weapon.magazine}</li>
+                                    <li>Capacity: ${weapon.capacity}</li>
+                                </ul>
+                            </div>
+                        `;
+                        weaponsGrid.appendChild(card);
+                    });
+                }
+
+                function createFilterButtons() {
+                    filtersContainer.innerHTML = '';
+                    const createButton = (text, filter) => {
+                        const button = document.createElement('button');
+                        button.textContent = text;
+                        button.classList.add('filter-btn');
+                        button.dataset.filter = filter;
+                        return button;
+                    };
+
+                    filtersContainer.appendChild(createButton('All', '*'));
+                    weaponClasses.forEach(c => filtersContainer.appendChild(createButton(c, c.replace(/ /g, '_').toLowerCase())));
+                    
+                    filtersContainer.querySelector('[data-filter="*"]').classList.add('active');
+                }
+
+                filtersContainer.addEventListener('click', e => {
+                    if (e.target.tagName !== 'BUTTON') return;
+
+                    filtersContainer.querySelector('.active').classList.remove('active');
+                    e.target.classList.add('active');
+
+                    const filterKey = e.target.dataset.filter;
+                    renderWeapons(filterKey);
+                });
+
+                weaponsGrid.addEventListener('click', e => {
+                    const card = e.target.closest('.weapon-card');
+                    if (!card) return;
+                    const details = card.querySelector('.weapon-details');
+                    if (details) {
+                        details.style.display = details.style.display === 'block' ? 'none' : 'block';
+                    }
+                });
+
+                createFilterButtons();
+                renderWeapons();
+            } // End initializeWeapons
+        });
+    </script>
+
+</body>
+</html>
